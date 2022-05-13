@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    ports:
+      - 9000:9000
+      - 8000:8000
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - data:/data
+    networks:
+      dockervlan:
+        ipv4_address: 192.168.178.200
+
+networks:
+  dockervlan:
+    name: dockervlan
+    driver: macvlan
+    driver_opts:
+      parent: eth0
+    ipam:
+      config:
+        - subnet: "192.168.178.0/24"
+          ip_range: "192.168.178.192/26"
+          gateway: "192.168.178.1"
+volumes:
+  data:

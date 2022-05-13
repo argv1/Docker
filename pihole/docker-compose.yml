@@ -1,0 +1,32 @@
+version: "3"
+
+# More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
+# https://www.denniswilmsmann.de/2020/07/pi-hole-mit-docker-compose/
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80/tcp"
+      - "443:443/tcp"     
+    environment:
+      TZ: Europe/Berlin
+      WEBPASSWORD: PASSWORD
+      PIHOLE_DNS_: 5.1.66.255#53;80.241.218.68#53
+      ServerIP: 192.168.178.193     
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - '/home/pi/pihole:/etc/pihole'
+      - '/home/pi/pihole/dnsmasq.d:/etc/dnsmasq.d'    
+    restart: unless-stopped
+    dns:
+      - 127.0.0.1
+      - 5.1.66.255
+    networks:
+      - dockervlan
+networks:
+  dockervlan:
+    external: true
