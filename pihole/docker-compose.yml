@@ -4,8 +4,8 @@ version: "3"
 # https://www.denniswilmsmann.de/2020/07/pi-hole-mit-docker-compose/
 services:
   pihole:
-    container_name: pihole
-    image: pihole/pihole:latest
+	image: pihole/pihole:latest
+	container_name: pihole
     ports:
       - "53:53/tcp"
       - "53:53/udp"
@@ -19,8 +19,8 @@ services:
     security_opt:
       - no-new-privileges:true
     volumes:
-      - '/home/pi/pihole:/etc/pihole'
-      - '/home/pi/pihole/dnsmasq.d:/etc/dnsmasq.d'    
+      - ':/var/lib/docker/volumes/pihole:/etc/pihole'
+      - ':/var/lib/docker/volumes/pihole/dnsmasq.d:/etc/dnsmasq.d'    
     restart: unless-stopped
     dns:
       - 127.0.0.1
