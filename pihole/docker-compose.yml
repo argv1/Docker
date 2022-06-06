@@ -19,8 +19,8 @@ services:
     security_opt:
       - no-new-privileges:true
     volumes:
-      - ':/var/lib/docker/volumes/pihole:/etc/pihole'
-      - ':/var/lib/docker/volumes/pihole/dnsmasq.d:/etc/dnsmasq.d'    
+      - '/var/lib/docker/volumes/pihole:/etc/pihole'
+      - '/var/lib/docker/volumes/pihole/dnsmasq.d:/etc/dnsmasq.d'    
     restart: unless-stopped
     dns:
       - 127.0.0.1
