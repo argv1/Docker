@@ -12,7 +12,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock
-      - /var/lib/docker/volumes/portainer/_data:/data
+      - data:/data
     restart: unless-stopped
     networks:
       dockervlan:
