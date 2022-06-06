@@ -5,7 +5,7 @@ services:
     image: portainer/portainer-ce:latest
     container_name: portainer
     ports:
-      - 80:9000
+      - 9000:9000
       - 8000:8000
     security_opt:
       - no-new-privileges:true
