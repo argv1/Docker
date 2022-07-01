@@ -5,9 +5,9 @@ networks:
     external: true
     
 services:
-  wordpress:
+  wordpress-app:
     image: wordpress:latest
-    container_name: wordpress
+    container_name: wordpress-app
     volumes: 
       - /home/docker/wordpress:/var/www/html
     ports:
@@ -23,9 +23,9 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
 
-  mysql:
+  wordpress-db:
     image: mariadb:latest
-    container_name: mariadb
+    container_name: wordpress-db
     volumes:
       - /home/docker/wordpress/wp-db:/var/lib/mysql
     restart: unless-stopped
