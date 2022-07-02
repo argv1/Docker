@@ -19,7 +19,7 @@ services:
       - 80:80
     environment:
       - "WORDPRESS_DB_USER=wordpress"
-      - "WORDPRESS_DB_PASSWORD=STRONGPASSWORD"
+      - "WORDPRESS_DB_PASSWORD=strongpassword"
       - "WORDPRESS_DB_HOST=192.168.178.198"
       - "WORDPRESS_TABLE_PREFIX=wp_"
     dns: 192.168.178.200
@@ -37,8 +37,8 @@ services:
       - db:/var/lib/mysql
     restart: unless-stopped
     environment:
-      - "MYSQL_ROOT_PASSWORD=STRONGPASSWORD"
-      - "MYSQL_PASSWORD=STRONGPASSWORD"
+      - "MYSQL_ROOT_PASSWORD=strongpassword"
+      - "MYSQL_PASSWORD=strongpassword"
       - "MYSQL_USER=wordpress"
       - "MYSQL_DATABASE=wordpress"
     networks:
@@ -50,9 +50,9 @@ services:
     environment:
       - PMA_ARBITRARY=1
     ports:
-      - 8080:80
+      - 9999:80
     volumes:
-      - myphpadmin:/etc/phpmyadmin/config.user.inc.php
+      - myphpadmin
     restart: unless-stopped
     networks:
       dockervlan:
