@@ -52,7 +52,7 @@ services:
     ports:
       - 9999:80
     volumes:
-      - myphpadmin
+      - myphpadmin:/etc/phpmyadmin/
     restart: unless-stopped
     networks:
       dockervlan:
