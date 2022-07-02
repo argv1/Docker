@@ -3,17 +3,22 @@ version: '3'
 networks:
   dockervlan:
     external: true
+
+volumes:
+  blog:
+  db:
+  myphpadmin:
     
 services:
   wordpress-app:
     image: wordpress:latest
     container_name: wordpress-app
     volumes: 
-      - /home/docker/wordpress:/var/www/html
+      - blog:/var/www/html
     ports:
       - 80:80
     environment:
-      - "WORDPRESS_DB_USER=root"
+      - "WORDPRESS_DB_USER=wordpress"
       - "WORDPRESS_DB_PASSWORD=STRONGPASSWORD"
       - "WORDPRESS_DB_HOST=192.168.178.198"
       - "WORDPRESS_TABLE_PREFIX=wp_"
@@ -29,10 +34,12 @@ services:
     image: mariadb:latest
     container_name: wordpress-db
     volumes:
-      - /home/docker/wordpress/wp-db:/var/lib/mysql
+      - db:/var/lib/mysql
     restart: unless-stopped
     environment:
       - "MYSQL_ROOT_PASSWORD=STRONGPASSWORD"
+      - "MYSQL_PASSWORD=STRONGPASSWORD"
+      - "MYSQL_USER=wordpress"
       - "MYSQL_DATABASE=wordpress"
     networks:
       dockervlan:
@@ -41,11 +48,11 @@ services:
     image: phpmyadmin:latest
     container_name: phpmyadmin
     environment:
-     - PMA_ARBITRARY=1
+      - PMA_ARBITRARY=1
     ports:
-     - 9999:80
+      - 8080:80
     volumes:
-      - /home/docker/wordpress/myphpadmin
+      - myphpadmin:/etc/phpmyadmin/config.user.inc.php
     restart: unless-stopped
     networks:
       dockervlan:
