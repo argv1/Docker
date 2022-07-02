@@ -1,8 +1,8 @@
 version: '3'
 
 volumes:
-  nextcloud-data:
-  nextcloud-db:
+  data:
+  db:
 
 networks:
   dockervlan:
@@ -14,7 +14,7 @@ services:
     container_name: nextcloud-app
     restart: unless-stopped
     volumes:
-      - /home/docker/nextcloud/data:/var/www/html
+      - data:/var/www/html
     environment:
       - MYSQL_PASSWORD=STRONGPASSWORD
       - MYSQL_DATABASE=nextcloud
@@ -32,7 +32,7 @@ services:
     restart: unless-stopped
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-file-per-table=1 --skip-innodb-read-only-compressed
     volumes:
-      - /home/docker/nextcloud/db:/var/lib/mysql
+      - db:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=STRONGPASSWORD
       - MYSQL_PASSWORD=STRONGPASSWORD
