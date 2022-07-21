@@ -1,0 +1,41 @@
+version: "3"
+
+networks:
+  dockervlan:
+    external: true
+    
+volumes:
+  pihole:    
+  dnsmasq.d:  
+    
+services:
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    hostname: pihole
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80/tcp"
+      - "443:443/tcp"     
+    environment:
+      TZ: Europe/Berlin
+      WEBPASSWORD: PASSWORD
+      PIHOLE_DNS_: 9.9.9.9#53;9.9.9.9#53
+      ServerIP: 192.168.178.193     
+      DNS1: 9.9.9.9 # Quad9 (filtered, DNSSEC)
+      DNS2: 9.9.9.9 # If we don't specify two, it will auto pick google.
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - 'pihole:/etc/pihole'
+      - 'dnsmasq.d:/etc/dnsmasq.d'    
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    dns:
+      - 127.0.0.1
+      - 9.9.9.9
+    networks:
+      dockervlan:
+        ipv4_address: 192.168.178.193       
