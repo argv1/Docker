@@ -1,0 +1,21 @@
+version: '3.3'
+
+networks:
+  dockervlan:
+    external: true
+    
+volumes:
+  data:
+    
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+    volumes:
+      - data:/app/data
+    ports:
+      - "80:3001"
+    restart: unless-stopped
+    networks:
+      dockervlan:
+        ipv4_address: 192.168.178.194  
