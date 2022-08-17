@@ -5,7 +5,7 @@ networks:
     external: true
 
 volumes:
-  myphpadmin:
+  data:
 
 services:
   phpmyadmin:
@@ -16,7 +16,7 @@ services:
     ports:
       - 9999:80
     volumes:
-      - myphpadmin:/etc/phpmyadmin/
+      - data:/etc/phpmyadmin/
     restart: unless-stopped
     networks:
       dockervlan:
