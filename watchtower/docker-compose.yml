@@ -1,0 +1,38 @@
+version: '3'
+
+networks:
+    dockervlan:
+        external: true
+
+services:
+    watchtower:
+        image: containrrr/watchtower:latest
+        container_name: watchtower
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /etc/timezone:/etc/timezone:ro
+        environment:
+            - TZ=Europe/Berlin
+            - WATCHTOWER_SCHEDULE= 0 0 04 ? * FRI #At 04:00 AM, only on Friday Change to suit
+            - WATCHTOWER_NOTIFICATIONS=email
+            - WATCHTOWER_NOTIFICATION_EMAIL_FROM=EMAIL
+            - WATCHTOWER_NOTIFICATION_EMAIL_TO=EMAIL
+            - WATCHTOWER_NOTIFICATION_EMAIL_SERVER=SERVER
+            - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD=PASSWORD
+            - WATCHTOWER_NOTIFICATION_EMAIL_SUBJECTTAG=Watchtower Alert - Container Updates
+            - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER=USERNAME
+            - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PORT=465
+            - WATCHTOWER_NOTIFICATIONS=gotify
+            - WATCHTOWER_NOTIFICATION_GOTIFY_URL=http://192.168.178.210
+            - WATCHTOWER_NOTIFICATION_GOTIFY_TOKEN=TOKEN
+            - WATCHTOWER_CLEANUP=true
+            - WATCHTOWER_LABEL_ENABLE=true # Update containers that have a com.centurylinklabs.watchtower.enable label set to true.
+            - WATCHTOWER_INCLUDE_RESTARTING=true
+            - WATCHTOWER_INCLUDE_STOPPED=true
+            - WATCHTOWER_ROLLING_RESTART=true
+        restart: unless-stopped
+        labels:
+            - "com.centurylinklabs.watchtower.enable=true"
+        networks:
+            dockervlan:
+                ipv4_address: 192.168.178.205
