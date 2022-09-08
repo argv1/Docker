@@ -1,5 +1,12 @@
 version: '3'
 
+networks:
+  dockervlan:
+    external: true
+
+volumes:
+  data:
+  
 services:
   portainer:
     image: portainer/portainer-ce:latest
@@ -17,17 +24,3 @@ services:
     networks:
       dockervlan:
         ipv4_address: 192.168.178.200
-
-networks:
-  dockervlan:
-    name: dockervlan
-    driver: macvlan
-    driver_opts:
-      parent: eth0
-    ipam:
-      config:
-        - subnet: "192.168.178.0/24"
-          ip_range: "192.168.178.192/26"
-          gateway: "192.168.178.1"
-volumes:
-  data:
