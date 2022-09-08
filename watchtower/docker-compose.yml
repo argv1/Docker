@@ -26,7 +26,7 @@ services:
             - WATCHTOWER_NOTIFICATION_GOTIFY_URL=http://192.168.178.210
             - WATCHTOWER_NOTIFICATION_GOTIFY_TOKEN=TOKEN
             - WATCHTOWER_CLEANUP=true
-            - WATCHTOWER_LABEL_ENABLE=true # Update containers that have a com.centurylinklabs.watchtower.enable label set to true.
+            #- WATCHTOWER_LABEL_ENABLE=true # Update containers that have a com.centurylinklabs.watchtower.enable label set to true.
             - WATCHTOWER_INCLUDE_RESTARTING=true
             - WATCHTOWER_INCLUDE_STOPPED=true
             - WATCHTOWER_ROLLING_RESTART=true
