@@ -1,0 +1,21 @@
+version: '3'
+
+volumes:
+    data:
+
+networks:
+    dockervlan:
+        external: true
+
+services:
+    gotify:
+        container_name: gotify
+        image: gotify/server-arm7:latest
+        volumes:
+            - data:/app/data
+        restart: unless-stopped
+        environment:
+            - TZ="Europe/Berlin"
+        networks:
+            dockervlan:
+                ipv4_address: 192.168.178.210
