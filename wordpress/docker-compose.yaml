@@ -14,7 +14,7 @@ services:
     image: wordpress:latest
     container_name: wordpress-app
     volumes: 
-      - content:/var/www/html/wp-content
+      - content:/var/www/html/
     ports:
       - 80:80
     environment:
@@ -22,7 +22,8 @@ services:
       - "WORDPRESS_DB_PASSWORD=strongpassword"
       - "WORDPRESS_DB_HOST=192.168.178.198"
       - "WORDPRESS_TABLE_PREFIX=wp_"
-    dns: 192.168.178.200
+      - "WORDPRESS_DB_NAME:wordpress" 
+    dns: 192.168.178.193
     networks:
       dockervlan:
         ipv4_address: 192.168.178.197
@@ -40,7 +41,7 @@ services:
       - "MYSQL_ROOT_PASSWORD=strongpassword"
       - "MYSQL_PASSWORD=strongpassword"
       - "MYSQL_USER=wordpress"
-      - "MYSQL_DATABASE=wordpress"
+      - "MYSQL_DATABASE=wordpress"     
     networks:
       dockervlan:
         ipv4_address: 192.168.178.198
