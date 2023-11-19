@@ -1,0 +1,33 @@
+version: '3'
+
+networks:
+    dockervlan:
+        external: true
+
+services:
+  samba:
+    image: samba:latest
+    container_name: samba
+    ports:
+      - 445:445
+      - 139:139
+    volumes:
+      - /opt/samba/smb.conf:/etc//samba/smb.conf
+      - /mnt/media:/mnt/media
+    environment:
+      - user_count=2
+      - user1=root
+      - password1=1234
+      - user2=argv1
+      - password2=5678
+    cpus: 0.5
+    mem_limit: 512m
+    restart: unless-stopped
+    networks:
+        dockervlan:
+            ipv4_address: 192.168.178.217
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "1m"
+
