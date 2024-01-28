@@ -1,0 +1,30 @@
+version: "2.1"
+
+volumes:
+  config:
+  
+networks:
+  dockervlan:
+    external: true
+
+services:
+  ubooquity:
+    image: lscr.io/linuxserver/ubooquity:latest
+    container_name: ubooquity
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - MAXMEM=1024
+    volumes:
+      - config:/config
+      - /mnt/media/eBooks:/books
+      - /mnt/media/Comics:/comics
+      - /mnt/media/Incoming:/files
+    ports:
+      - 2202:2202 #http(s)://DNSorIP:2202/ubooquity/
+      - 2203:2203 #http(s)://DNSorIP:2202/ubooquity/admin
+    restart: unless-stopped
+    networks: 
+        dockervlan:
+            ipv4_address: 192.168.178.208

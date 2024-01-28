@@ -1,0 +1,37 @@
+version: '3.5'
+
+networks:
+  dockervlan:
+    external: true
+
+volumes:
+  data:
+  microbin:
+
+services:
+  paste:
+    image: danielszabo99/microbin
+    container_name: microbin
+    restart: always
+    environment:
+     - MICROBIN_PRIVATE=false
+     - MICROBIN_QR=true
+     - MICROBIN_HIGHLIGHTSYNTAX=true
+     - MICROBIN_ADMIN_USERNAME=admin
+     - MICROBIN_ADMIN_PASSWORD=password
+     - MICROBIN_ENCRYPTION_CLIENT_SIDE=false
+     - MICROBIN_ENCRYPTION_SERVER_SIDE=true
+     - MICROBIN_TITLE=Microbin
+     - MICROBIN_QR=True
+     - MICROBIN_HIDE_FOOTER=True
+     - MICROBIN_WIDE=true
+    ports:
+     - "8065:8080"
+    volumes:
+     - microbin:/my/microbin
+     - data:/app/pasta_data
+    security_opt:
+     - no-new-privileges:true
+    networks:
+      dockervlan:
+        ipv4_address: 192.168.178.203

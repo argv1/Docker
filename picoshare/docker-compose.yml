@@ -1,0 +1,27 @@
+version: "3.2"
+
+networks:
+  dockervlan:
+    external: true
+
+volumes:
+  data:
+
+services:
+  picoshare:
+    image: mtlynch/picoshare:latest
+    container_name: picoshare
+    environment:
+      - PORT=4001
+      - PS_SHARED_SECRET=dummypass # Change to any password
+    ports:
+      - 4001:4001
+    command:
+      -db /data/store.db
+      -vacuum true # Vacuum database periodically to reclaim disk space (increases RAM usage) 	
+    volumes:
+      - data:/data
+    restart: unless-stopped
+    networks:
+      dockervlan:
+        ipv4_address: 192.168.178.197
