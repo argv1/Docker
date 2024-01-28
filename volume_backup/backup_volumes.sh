@@ -18,5 +18,5 @@
 			    docker run --rm \
 			        -v "${volume_backup_folder}:/backup" \
 			        -v "$volume:/data:ro" \
-			        debian:stretch-slim bash -c "cd /data && tar -czvf /backup/${volume_name}_$(date +"%Y%m%d%H%M%S").tar.gz ."
+			        debian:buster-slim bash -c "cd /data && tar -czvf /backup/${volume_name}_$(date +"%Y%m%d%H%M%S").tar.gz ."
 done
