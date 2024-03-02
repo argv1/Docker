@@ -20,6 +20,8 @@ services:
       - password1=1234
       - user2=argv1
       - password2=5678
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
     cpus: 0.5
     mem_limit: 512m
     restart: unless-stopped
