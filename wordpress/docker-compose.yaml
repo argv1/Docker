@@ -17,6 +17,8 @@ services:
       - content:/var/www/html/
     ports:
       - 80:80
+    depends_on:
+      - wordpress-db
     environment:
       - "WORDPRESS_DB_USER=wordpress"
       - "WORDPRESS_DB_PASSWORD=strongpassword"
@@ -52,6 +54,8 @@ services:
       - PMA_ARBITRARY=1
     ports:
       - 9999:80
+    depends_on:
+      - wordpress-db
     volumes:
       - myphpadmin:/etc/phpmyadmin/
     restart: unless-stopped
