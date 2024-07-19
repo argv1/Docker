@@ -1,0 +1,84 @@
+version: "3.2"
+
+networks:
+  dockervlan:
+    external: true
+
+volumes:
+  config:
+  db:
+  pihole:
+  dnsmasq.d:
+
+services:
+  unbound:
+    image: mvance/unbound:latest
+    container_name: unbound
+    restart: unless-stopped
+    hostname: unbound
+    volumes:
+      - ./unbound:/opt/.unbound/etc/unbound/
+    networks:
+      dockervlan:
+        ipv4_address: 192.168.178.251
+    cap_add:
+      - NET_ADMIN
+    env_file: .env
+  wireguard:
+    depends_on:
+      - unbound
+      - pihole
+    image: linuxserver/wireguard
+    container_name: wireguard
+    ports:
+      - 5000:5000
+      - 51820:51820/udp
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv4.ip_forward=1
+    networks:
+      dockervlan:
+        ipv4_address: 192.168.178.252
+    volumes:
+      - config:/config
+    env_file: .env
+
+  wireguard-ui:
+    image: ngoduykhanh/wireguard-ui:latest
+    container_name: wireguard-ui
+    depends_on:
+      - wireguard
+    cap_add:
+      - NET_ADMIN
+    network_mode: service:wireguard
+    logging:
+      driver: json-file
+      options:
+        max-size: 50m
+    volumes:
+      - db:/app/db
+      - config:/config
+    env_file: .env
+
+  pihole:
+    depends_on:
+      - unbound
+    container_name: pihole
+    image: pihole/pihole:latest
+    restart: unless-stopped
+    hostname: pihole
+    dns:
+      - 127.0.0.1
+      - ${PIHOLE_DNS}
+    volumes:
+      - pihole:/etc/pihole/
+      - dnsmasq.d:/etc/dnsmasq.d/
+    cap_add:
+      - NET_ADMIN
+    networks:
+      dockervlan:
+        ipv4_address: 192.168.178.250
+    env_file: ./.env
