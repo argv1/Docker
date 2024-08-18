@@ -1,0 +1,27 @@
+volumes:
+  config:
+
+networks:
+  dockervlan:
+    external: true
+
+services:
+  qbittorrent:
+    image: linuxserver/qbittorrent
+    container_name: qbittorrent
+    environment:
+      - PUID=1000            # Benutzer-ID (entsprechend deinem Benutzer)
+      - PGID=1000            # Gruppen-ID (entsprechend deiner Gruppe)
+      - TZ=Europe/Berlin     # Zeitzone
+      - WEBUI_PORT=8080      # Web-Frontend-Port
+    volumes:
+      - config:/config   # Speicherort der Konfigurationsdateien
+      - /mnt/downloads/downloads   # Speicherort für heruntergeladene Dateien
+    ports:
+      - 8080:8080   # Port-Mapping für das Web-Frontend
+      - 6881:6881   # Port für Torrent-Verbindungen (TCP)
+      - 6881:6881/udp   # Port für Torrent-Verbindungen (UDP)
+    restart: unless-stopped
+    networks:
+      dockervlan:
+        ipv4_address: 192.168.178.213
