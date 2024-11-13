@@ -9,7 +9,7 @@ networks:
 services:
   nextcloud-app:
     image: nextcloud:latest
-      depends_on:
+    depends_on:
       - nextcloud-db
     container_name: nextcloud-app
     restart: unless-stopped
