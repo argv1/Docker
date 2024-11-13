@@ -1,5 +1,3 @@
-version: '3'
-
 volumes:
     data:
 
@@ -10,7 +8,7 @@ networks:
 services:
     gotify:
         container_name: gotify
-        image: gotify/server-arm64:latest
+        image: gotify/server:latest
         volumes:
             - data:/app/data
         restart: unless-stopped
