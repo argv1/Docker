@@ -14,6 +14,9 @@ services:
     restart: unless-stopped
     volumes:
       - db:/var/lib/postgresql/data
+    networks:
+      dockervlan:
+        ipv4_address: 192.168.178.212      
   linkwarden:
     env_file: .env
     container_name: linkwarden
