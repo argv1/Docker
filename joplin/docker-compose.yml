@@ -17,7 +17,7 @@ services:
       - "5432:5432"
     restart: unless-stopped
     environment:
-      - POSTGRES_PASSWORD=a23ka2ck3"3ca2oi3c
+      - POSTGRES_PASSWORD=CHANGEME
       - POSTGRES_USER=joplin
       - POSTGRES_DB=joplindb
     networks:
@@ -36,7 +36,7 @@ services:
       - APP_PORT=22300
       - APP_BASE_URL=http://192.168.178.205:22300
       - DB_CLIENT=pg
-      - POSTGRES_PASSWORD=a23ka2ck3"3ca2oi3c
+      - POSTGRES_PASSWORD=CHANGEME
       - POSTGRES_DATABASE=joplindb
       - POSTGRES_USER=joplin
       - POSTGRES_PORT=5432
